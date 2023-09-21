@@ -43,7 +43,7 @@ void Display::drawHumidityMenu(measureSet<int16_t> humidity) {
     // header
     if (showTitle) drawHeadMenu(_title);
     // center
-    drawMenuCell(outH, humidity.title, 45, CENTER_MENU_SHIFT_Y, get_humidity_color);
+    drawMenuCell(humidity, humidity.title, 45, CENTER_MENU_SHIFT_Y, get_humidity_color);
 
 //    if (showAdditionData) drawBottom();
 }
@@ -62,7 +62,7 @@ void Display::drawRoomTemperatureMenu(measureSet<int16_t> temperature) {
     // header
     if (showTitle) drawHeadMenu(_title);
     // center
-    drawMenuCell(outH, humidity.title, 68, CENTER_MENU_SHIFT_Y, get_room_temper_color);
+    drawMenuCell(temperature, temperature.title, 68, CENTER_MENU_SHIFT_Y, get_room_temper_color);
 }
 
 void Display::drawSingleTemperatureMenu(measureSet<int16_t> temperature) {
@@ -70,7 +70,7 @@ void Display::drawSingleTemperatureMenu(measureSet<int16_t> temperature) {
     // header
     if (showTitle) drawHeadMenu(_title);
     // center
-    drawMenuCell(outH, humidity.title, DEFAULT_SHIFT_X, CENTER_MENU_SHIFT_Y, get_out_temper_color);
+    drawMenuCell(temperature, temperature.title, DEFAULT_SHIFT_X, CENTER_MENU_SHIFT_Y, get_out_temper_color);
 }
 
 void Display::drawDoubleTemperatureMenu(measureSet<int16_t> firstTemperature, measureSet<int16_t> secondTemperature) {
@@ -78,9 +78,9 @@ void Display::drawDoubleTemperatureMenu(measureSet<int16_t> firstTemperature, me
     // header
     if (showTitle) drawHeadMenu(_title);
     // top
-    drawMenuCell(outT, OUT_TEMPER_TITLE, DEFAULT_SHIFT_X, TOP_MENU_SHIFT_Y, get_out_temper_color);
+    drawMenuCell(firstTemperature, firstTemperature.title, DEFAULT_SHIFT_X, TOP_MENU_SHIFT_Y, get_out_temper_color);
     // bottom
-    drawMenuCell(roomT, ROOM_TEMPER_TITLE, DEFAULT_SHIFT_X, BOTTOM_MENU_SHIFT_Y, get_out_temper_color);
+    drawMenuCell(secondTemperature, secondTemperature.title, DEFAULT_SHIFT_X, BOTTOM_MENU_SHIFT_Y, get_out_temper_color);
 }
 
 void Display::drawMenuCell(
