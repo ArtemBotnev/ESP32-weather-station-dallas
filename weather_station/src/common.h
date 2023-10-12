@@ -15,7 +15,7 @@
  * Container for measured parameters
  */
 template <typename T> struct measureSet {
-    const char *title
+    const char *title;
     const T curValue;
 };
 

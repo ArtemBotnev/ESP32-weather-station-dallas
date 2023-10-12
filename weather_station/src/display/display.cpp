@@ -70,7 +70,7 @@ void Display::drawSingleTemperatureMenu(measureSet<int16_t> temperature) {
     // header
     if (showTitle) drawHeadMenu(_title);
     // center
-    drawMenuCell(temperature, temperature.title, DEFAULT_SHIFT_X, CENTER_MENU_SHIFT_Y, get_out_temper_color);
+    drawMenuCell(temperature, temperature.title, DEFAULT_SHIFT_X, CENTER_MENU_SHIFT_Y, get_dallas_temper_color);
 }
 
 void Display::drawDoubleTemperatureMenu(measureSet<int16_t> firstTemperature, measureSet<int16_t> secondTemperature) {
@@ -78,9 +78,9 @@ void Display::drawDoubleTemperatureMenu(measureSet<int16_t> firstTemperature, me
     // header
     if (showTitle) drawHeadMenu(_title);
     // top
-    drawMenuCell(firstTemperature, firstTemperature.title, DEFAULT_SHIFT_X, TOP_MENU_SHIFT_Y, get_out_temper_color);
+    drawMenuCell(firstTemperature, firstTemperature.title, DEFAULT_SHIFT_X, TOP_MENU_SHIFT_Y, get_dallas_temper_color);
     // bottom
-    drawMenuCell(secondTemperature, secondTemperature.title, DEFAULT_SHIFT_X, BOTTOM_MENU_SHIFT_Y, get_out_temper_color);
+    drawMenuCell(secondTemperature, secondTemperature.title, DEFAULT_SHIFT_X, BOTTOM_MENU_SHIFT_Y, get_dallas_temper_color);
 }
 
 void Display::drawMenuCell(

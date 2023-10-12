@@ -13,8 +13,8 @@
  * Dallas sensor data
  */
 struct dallasSensor {
-    const char *title
-    uint8_t addr[8]
+    const char *title;
+    uint8_t addr[8];
 };
 
 #endif //SENSORS_H

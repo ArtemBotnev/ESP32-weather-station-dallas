@@ -18,8 +18,8 @@
 #include "src/sensors.h"
 #include "src/display/display.h"
 #include "src/clock/clock.h"
-#include "src/storage/repository.h"
-#include "src/network/network.h"
+//#include "src/storage/repository.h"
+//#include "src/network/network.h"
 
 #define SENSOR_DELAY 100
 #define SCREEN_DELAY 2800
@@ -60,8 +60,8 @@ bool storageIsAvailable;
 // you can use a lot of dallas sensors
 dallasSensor dallasArr[2] = {
         // change to yours title and address
-        { "Out t, C", { 0x28, 0xFF, 0x71, 0x38, 0x90, 0x15, 0x03, 0x65 } };
-        { "Balcony t, C", { 0x28, 0xFF, 0x84, 0x3A, 0x90, 0x15, 0x03, 0x16 } };
+        { "Out t, C", { 0x28, 0xFF, 0x71, 0x38, 0x90, 0x15, 0x03, 0x65 } },
+        { "Balcony t, C", { 0x28, 0xFF, 0x84, 0x3A, 0x90, 0x15, 0x03, 0x16 } },
 };
 
 void setup() {
@@ -103,7 +103,7 @@ void loop() {
 void readTemperatureAndShow() {
     // read room temp
     int16_t roomCurrentTemper = round(bme.readTemperature());
-    delay(SENSOR_DELAY);
+//    delay(SENSOR_DELAY);
 //    measureSet<int16_t> outT = dataManager.getMeasureSet(OUT_TEMPER, outCurrentTemper);
 //    measureSet<int16_t> roomT = dataManager.getMeasureSet(ROOM_TEMPER, roomCurrentTemper);
     measureSet<int16_t> roomT = { ROOM_TEMPER_TITLE, roomCurrentTemper };
@@ -113,7 +113,7 @@ void readTemperatureAndShow() {
     // read dallas sensors
     sensors.requestTemperatures();
     int8_t dallasArraySize = sizeof(dallasArr) / sizeof(dallasArr[0]);
-    for (int8_t i = 0; i < dallasArraySize; i + 2) {
+    for (int8_t i = 0; i < dallasArraySize; i = i + 2) {
         measureSet<int16_t> measure1 = { dallasArr[i].title, readDallasSensor(dallasArr[i].addr) };
         if (dallasArraySize > i + 1) {
             measureSet<int16_t> measure2 = { dallasArr[i + 1].title, readDallasSensor(dallasArr[i + 1].addr) };
@@ -134,7 +134,8 @@ void readHumidityAndShow() {
     delay(SENSOR_DELAY);
 
 //    measureSet<int16_t> outH = dataManager.getMeasureSet(OUT_HUM, outCurrentHumidity);
-    measureSet<int16_t> humidity = dataManager.getMeasureSet(ROOM_HUM, currentHumidity);
+//    measureSet<int16_t> humidity = dataManager.getMeasureSet(ROOM_HUM, currentHumidity);
+    measureSet<int16_t> humidity = { ROOM_HUM_TITLE, currentHumidity };
 
     display.drawHumidityMenu(humidity);
     delay(SCREEN_DELAY);
@@ -145,17 +146,18 @@ void readAtmPressureAndShow() {
     uint16_t currentPressure = round(bme.readPressure() * 0.0075F);
     delay(2 * SENSOR_DELAY);
 
-    measureSet<int16_t> pressure = dataManager.getMeasureSet(PRESSURE, currentPressure);
+//    measureSet<int16_t> pressure = dataManager.getMeasureSet(PRESSURE, currentPressure);
+    measureSet<int16_t> pressure = { PRESSURE_TITLE, currentPressure };
 
     display.drawAtmPressureMenu(pressure);
     delay(SCREEN_DELAY);
 }
 
-void doNetWork(timePack time, measureSet<int16_t> *(*measureArrayGetter)()) {
-    if (isNetAvailable = networkManager.connectionEstablished()) {
-        networkManager.runTasks(time, measureArrayGetter);
-    }
-}
+//void doNetWork(timePack time, measureSet<int16_t> *(*measureArrayGetter)()) {
+//    if (isNetAvailable = networkManager.connectionEstablished()) {
+//        networkManager.runTasks(time, measureArrayGetter);
+//    }
+//}
 
 float readDallasSensor(uint8_t addr[8]) {
     return sensors.getTempC(addr);
