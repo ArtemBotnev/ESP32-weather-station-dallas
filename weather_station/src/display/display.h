@@ -56,8 +56,8 @@ extern "C" {
 //#define OUT_TEMPER_TITLE    "Outdoors t, C"
 //#define ROOM_TEMPER_TITLE   "Room t, C"
 //#define OUT_HUM_TITLE       "Outdoors h, %"
-//#define ROOM_HUM_TITLE      "Room h, %"
-//#define PRESSURE_TITLE      "Atm.press. p, mmHg"
+#define ROOM_HUM_TITLE      "Room h, %"
+#define PRESSURE_TITLE      "Atm.press. p, mmHg"
 
 // screen rotation
 #define ROTATE_180 2
