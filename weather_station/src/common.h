@@ -6,10 +6,8 @@
 #define COMMON_H
 
 #include "inttypes.h"
-// count of enum items in MeasureType
-//#define MEASURE_TYPES_COUNT 5
-//
-//enum MeasureType { ROOM_TEMPER, DALLAS_TEMPER, ROOM_HUM, PRESSURE };
+// count of measure types exclude dallas sensors
+#define MEASURE_TYPES_COUNT 3
 
 /**
  * Container for measured parameters
@@ -17,6 +15,9 @@
 template <typename T> struct measureSet {
     const char *title;
     const T curValue;
+    const T min;
+    const float average;
+    const T max;
 };
 
 /**

@@ -52,13 +52,6 @@ extern "C" {
 #define BOTTOM_MENU_SHIFT_Y 161
 #define CENTER_MENU_SHIFT_Y 95
 
-// titles
-//#define OUT_TEMPER_TITLE    "Outdoors t, C"
-//#define ROOM_TEMPER_TITLE   "Room t, C"
-//#define OUT_HUM_TITLE       "Outdoors h, %"
-#define ROOM_HUM_TITLE      "Room h, %"
-#define PRESSURE_TITLE      "Atm.press. p, mmHg"
-
 // screen rotation
 #define ROTATE_180 2
 
@@ -70,8 +63,7 @@ extern "C" {
 class Display {
 
 public:
-//    bool showTitle, showAdditionData;
-    bool showTitle;
+    bool showTitle, showAdditionData;
 
     Display();
 
@@ -97,20 +89,19 @@ private:
     uint16_t _screenColor = ILI9341_BLACK;
     char *_title;
 
-    void drawHeadMenu(const char *title);
+    void drawHeadMenu();
 
     void drawMenuCell(
             measureSet<int16_t> measure,
-            const char *header,
             uint8_t x,
             uint8_t y,
             uint16_t (*value_color)(int16_t));
 
-//    void drawBottom();
+    void drawBottom();
 
-//    void drawAdditionalData(uint8_t shiftY, measureSet<int16_t> measure, uint16_t (*value_color)(int16_t));
+    void drawAdditionalData(uint8_t shiftY, measureSet<int16_t> measure, uint16_t (*value_color)(int16_t));
 
-//    int16_t round(float value);
+    int16_t round(float value);
 };
 
 #endif
