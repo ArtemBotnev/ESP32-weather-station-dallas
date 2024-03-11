@@ -18,9 +18,15 @@ public:
 
     void clearCache();
 
+    /**
+     * @return array of measureSet where index corresponds to index of measure from sensors.h
+     */
+    measureSet<int16_t> *getMeasuresArray();
+
 private:
     struct item {
         int8_t index;
+        const char *title;
         int16_t current;
         int16_t min;
         int16_t max;
@@ -35,6 +41,8 @@ private:
     Cache *_cache;
 
     item *getCacheItemByIndex(int8_t index);
+
+    measureSet<int16_t> itemToMeasureSet(item *item);
 };
 
 #endif //STORAGE_H
