@@ -74,7 +74,6 @@ void Display::drawDoubleTemperatureMenu(measureSet<int16_t> firstTemperature, me
 
 void Display::drawMenuCell(
         measureSet<int16_t> measure,
-//        const char *header,
         uint8_t shiftX,
         uint8_t shiftY,
         uint16_t (*value_color)(int16_t)) {

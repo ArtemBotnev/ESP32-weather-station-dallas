@@ -42,6 +42,10 @@ measureSet<int16_t> DataManager::getMeasureSet(const char *title, int8_t measure
 void DataManager::clearCache() {
     delete _cache;
     _cache = new Cache();
+    for (int8_t i = 0; i < DALLAS_SENSORS_COUNT + MEASURE_TYPES_COUNT; i++) {
+        _cache->items[i].min = DEFAULT_VALUE;
+        _cache->items[i].max = -DEFAULT_VALUE;
+    }
 }
 
 DataManager::item *DataManager::getCacheItemByIndex(int8_t index) {
