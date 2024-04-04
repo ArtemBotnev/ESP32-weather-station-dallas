@@ -117,10 +117,11 @@ void readTemperatureAndShow() {
         int8_t firstDallasIndex = MEASURE_TYPES_COUNT;
         measureSet<int16_t> measure1 =dataManager
                 .getMeasureSet(dallasArr[i].title, firstDallasIndex, readDallasSensor(dallasArr[i].addr));
-        if (dallasArraySize > i + 1) {
-            int8_t dallasIndex = firstDallasIndex + i;
+        int8_t next = i + 1;
+        if (dallasArraySize > next) {
+            int8_t dallasIndex = firstDallasIndex + next;
             measureSet<int16_t> measure2 = dataManager
-                    .getMeasureSet(dallasArr[i + 1].title, dallasIndex, readDallasSensor(dallasArr[i + 1].addr));
+                    .getMeasureSet(dallasArr[next].title, dallasIndex, readDallasSensor(dallasArr[next].addr));
             display.setTitle(cl.getTimeString());
             display.drawDoubleTemperatureMenu(measure1, measure2);
         } else {
