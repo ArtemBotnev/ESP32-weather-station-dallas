@@ -19,7 +19,7 @@
 #include "src/display/display.h"
 #include "src/clock/clock.h"
 #include "src/storage/storage.h"
-//#include "src/network/network.h"
+#include "src/network/network.h"
 
 #define SENSOR_DELAY 100
 #define SCREEN_DELAY 2800
@@ -47,15 +47,11 @@ DallasTemperature sensors(&oneWire);
 Display display;
 TClock cl;
 DataManager dataManager;
-//NetworkManager networkManager;
+NetworkManager networkManager;
 
 bool isNetAvailable;
 
 bool storageIsAvailable;
-
-//measureSet<int16_t> *getMeasuresArray() {
-//    return dataManager.getMeasuresArray();
-//}
 
 // you can use a lot of dallas sensors
 dallasSensor dallasArr[DALLAS_SENSORS_COUNT] = {
@@ -78,10 +74,10 @@ void setup() {
 //        storageIsAvailable = dataManager.initStorage(cl.getTimePack());
 //    }
 
-//    if (NETWORK_ENABLED) {
-//        networkManager.init(SSID, PASSWORD);
-//        if (TELEGRAM_ENABLED) networkManager.initTelegramService(BOT_TOKEN);
-//    }
+    if (NETWORK_ENABLED) {
+        networkManager.init(SSID, PASSWORD);
+        if (TELEGRAM_ENABLED) networkManager.initTelegramService(BOT_TOKEN);
+    }
 }
 
 void loop() {
@@ -99,7 +95,7 @@ void loop() {
 //        dataManager.updateTimeData(time);
     }
 //
-//    if (NETWORK_ENABLED) doNetWork(time, getMeasuresArray);
+    if (NETWORK_ENABLED) doNetWork(time, getMeasuresArray);
 }
 
 void readTemperatureAndShow() {
@@ -107,7 +103,6 @@ void readTemperatureAndShow() {
     int16_t roomCurrentTemper = round(bme.readTemperature());
     delay(SENSOR_DELAY);
     measureSet<int16_t> roomT = dataManager.getMeasureSet(ROOM_TEMPER_TITLE, ROOM_TEMPER_INDEX, roomCurrentTemper);
-//    display.setTitle(cl.getTimeString());
     display.drawRoomTemperatureMenu(roomT);
     delay(SCREEN_DELAY);
     // read dallas sensors
@@ -151,11 +146,11 @@ void readAtmPressureAndShow() {
     delay(SCREEN_DELAY);
 }
 
-//void doNetWork(timePack time, measureSet<int16_t> *(*measureArrayGetter)()) {
-//    if (isNetAvailable = networkManager.connectionEstablished()) {
-//        networkManager.runTasks(time, measureArrayGetter);
-//    }
-//}
+void doNetWork(timePack time, measureSet<int16_t> *(*measureArrayGetter)()) {
+    if (isNetAvailable = networkManager.connectionEstablished()) {
+        networkManager.runTasks(time, measureArrayGetter);
+    }
+}
 
 float readDallasSensor(uint8_t addr[8]) {
     return sensors.getTempC(addr);
