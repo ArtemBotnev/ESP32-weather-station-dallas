@@ -24,3 +24,15 @@ void NetworkManager::runTasks(timePack time, measureSet<int16_t> *(*measureArray
 void NetworkManager::initTelegramService(const char* token) {
     _telegramService = new TelegramService(token, &_client);
 }
+
+uint32_t NetworkManager::getNtpMilliseconds(const char *ntpServer, uint8_t timeZone) {
+    WiFiUDP ntpUDP;
+    uint64_t offset = 60*60*timeZone;
+    NTPClient timeClient(ntpUDP, *ntpServer, offset);
+    delay(500);
+
+    timeClient.begin();
+    timeClient.update();
+
+    return timeClient.getEpochTime();
+}

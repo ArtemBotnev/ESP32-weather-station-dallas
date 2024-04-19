@@ -5,9 +5,10 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
+#include <NTPClient.h>
 #include <WiFi.h>
+#include <WiFiUdp.h>
 #include <WiFiClientSecure.h>
-//#include <DELAY.h>
 
 #include "telegram_service.h"
 #include "../common.h"
@@ -42,6 +43,14 @@ public:
      * @param token - telegram bot token
      */
     void initTelegramService(const char* token);
+
+    /**
+     * real time from ntp server
+     * @param ntpServer - ntp server address
+     * @param timeZone - time zone GMT
+     * @return real time in milliseconds with time zone offset
+     */
+    uint32_t getNtpMilliseconds(const char *ntpServer, uint8_t timeZone);
 
 private:
     WiFiClientSecure _client;

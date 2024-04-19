@@ -67,3 +67,7 @@ timePack TClock::getTimePack() {
 
     return timePack { _dt.unixtime, _dt.day, _dt.minute, timeDate, time, date };
 }
+
+void TClock::setDateTimeMillis(uint32_t timeMillis) {
+    _rtc.setDateTime(timeMillis);
+}

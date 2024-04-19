@@ -31,6 +31,8 @@ public:
 
     timePack getTimePack();
 
+    void setDateTimeMillis(uint32_t timeMillis);
+
 private:
     DS3231 _rtc;
     RTCDateTime _dt;

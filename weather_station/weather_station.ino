@@ -35,10 +35,17 @@
 #define NETWORK_ENABLED true
 // Turn to false if you don't want to use telegram (available only if network enabled)
 #define TELEGRAM_ENABLED true
+// Turn to false if you don't want to use NTP server time synchronization
+#define NTP_SYNC true
 
 #define SSID "XXXXXX"     // your network SSID (name)
 #define PASSWORD "YYYYYY" // your network key
 #define BOT_TOKEN "XXXXXXXXX:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"  // your Bot Token (Get from Botfather)
+
+// your ntp server address
+#define NTP_SERVER "ru.pool.ntp.org"
+// your time zone GMT
+#define TIME_ZONE 3
 
 Adafruit_BME280 bme;
 OneWire oneWire(ONE_WIRE_BUS);
@@ -52,6 +59,12 @@ NetworkManager networkManager;
 bool isNetAvailable;
 
 bool storageIsAvailable;
+
+measureSet<int16_t> *measureArray;
+
+measureSet<int16_t> *getMeasuresArray() {
+    return measureArray;
+}
 
 // you can use a lot of dallas sensors
 dallasSensor dallasArr[DALLAS_SENSORS_COUNT] = {
@@ -75,8 +88,10 @@ void setup() {
 //    }
 
     if (NETWORK_ENABLED) {
+        measureArray = new measureSet<int16_t>[DALLAS_SENSORS_COUNT + MEASURE_TYPES_COUNT];
         networkManager.init(SSID, PASSWORD);
         if (TELEGRAM_ENABLED) networkManager.initTelegramService(BOT_TOKEN);
+        if (NTP_SYNC) syncTime();
     }
 }
 
@@ -94,7 +109,7 @@ void loop() {
         if (cl.isNewDay()) dataManager.clearCache();
 //        dataManager.updateTimeData(time);
     }
-//
+
     if (NETWORK_ENABLED) doNetWork(time, getMeasuresArray);
 }
 
@@ -148,8 +163,14 @@ void readAtmPressureAndShow() {
 
 void doNetWork(timePack time, measureSet<int16_t> *(*measureArrayGetter)()) {
     if (isNetAvailable = networkManager.connectionEstablished()) {
+        dataManager.updateMeasuresArray(measureArray);
         networkManager.runTasks(time, measureArrayGetter);
     }
+}
+
+void syncTime() {
+    uint32_t timeMillis = networkManager.getNtpMilliseconds(NTP_SERVER, TIME_ZONE);
+    cl.setDateTimeMillis(timeMillis);
 }
 
 float readDallasSensor(uint8_t addr[8]) {

@@ -5,6 +5,8 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#define DEFAULT_VALUE 1000
+
 #include "inttypes.h"
 // count of measure types exclude dallas sensors
 #define MEASURE_TYPES_COUNT 3
@@ -13,11 +15,16 @@
  * Container for measured parameters
  */
 template <typename T> struct measureSet {
-    const char *title;
-    const T curValue;
-    const T min;
-    const float average;
-    const T max;
+    char *title;
+    T curValue;
+    T min;
+    float average;
+    T max;
+    measureSet()
+            : title { "" }, curValue { -DEFAULT_VALUE }, min { DEFAULT_VALUE }, average { -DEFAULT_VALUE }, max { -DEFAULT_VALUE } {  }
+
+    measureSet(char* title, T curValue, T min, float average, T max)
+            : title { title }, curValue { curValue }, min { min }, average { average }, max { max } {  }
 };
 
 /**

@@ -5,8 +5,6 @@
 #ifndef STORAGE_H
 #define STORAGE_H
 
-#define DEFAULT_VALUE 1000
-
 #include "../common.h"
 #include "../sensors.h"
 
@@ -17,6 +15,10 @@ public:
     measureSet<int16_t> getMeasureSet(const char *title, int8_t measureIndex, int16_t currentVal);
 
     void clearCache();
+    /**
+     * @param array of measureSet as a buffer
+     */
+    void updateMeasuresArray(measureSet<int16_t> *measureArray);
 
 private:
     struct item {
@@ -26,6 +28,7 @@ private:
         int16_t max;
         float average;
         uint16_t factor;
+        char *title;
     };
 
     struct Cache {
@@ -35,6 +38,8 @@ private:
     Cache *_cache;
 
     item *getCacheItemByIndex(int8_t index);
+
+    measureSet<int16_t> itemToMeasureSet(item *item);
 };
 
 #endif //STORAGE_H

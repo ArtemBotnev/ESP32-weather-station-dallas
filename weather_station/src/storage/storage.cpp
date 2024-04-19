@@ -16,8 +16,11 @@ measureSet<int16_t> DataManager::getMeasureSet(const char *title, int8_t measure
     item *item = getCacheItemByIndex(measureIndex);
     if (!item) {
         // error
-        return measureSet<int16_t> { "", -DEFAULT_VALUE, DEFAULT_VALUE, -DEFAULT_VALUE, -DEFAULT_VALUE };
+//        return measureSet<int16_t> { "", -DEFAULT_VALUE, DEFAULT_VALUE, -DEFAULT_VALUE, -DEFAULT_VALUE };
+        return measureSet<int16_t>{};
     }
+
+    item->title = (char*) title;
 
     item->current = currentVal;
 
@@ -36,7 +39,7 @@ measureSet<int16_t> DataManager::getMeasureSet(const char *title, int8_t measure
         item->factor++;
     }
 
-    return measureSet<int16_t> { title, currentVal, item->min, item->average , item->max };
+    return measureSet<int16_t> { (char*) title, currentVal, item->min, item->average , item->max };
 }
 
 void DataManager::clearCache() {
@@ -50,4 +53,15 @@ void DataManager::clearCache() {
 
 DataManager::item *DataManager::getCacheItemByIndex(int8_t index) {
     return &_cache->items[index];
+}
+
+void DataManager::updateMeasuresArray(measureSet<int16_t> *measureArray) {
+    for (int8_t i = 0; i < DALLAS_SENSORS_COUNT + MEASURE_TYPES_COUNT; i++) {
+        measureArray[i] = itemToMeasureSet(getCacheItemByIndex(i));
+    }
+
+}
+
+measureSet<int16_t> DataManager::itemToMeasureSet(item *item) {
+    return measureSet<int16_t> { item->title, item->current, item->min, item->average, item->max };
 }
